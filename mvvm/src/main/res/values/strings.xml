@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">mvvm sample</string>
+    <string name="plus_sign">+</string>
+    <string name="equals_sign">=</string>
+    <string name="add">求和</string>
+    <string name="zero">0</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorCalculationBg">#759cd2</color>
+    <color name="colorButtonSumNormal">#e78686</color>
+    <color name="colorButtonSumPressed">#762323</color>
+    <color name="colorButtonSumFocused">#e15151</color>
+    <color name="colorNumber">#df0d25</color>
+</resources>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Api Tester</string>
+    <string name="action_settings">Settings</string>
+    <string name="popupmenu_test1">第一项测试菜单的表示宽度</string>
+    <string name="popupmenu_test2">第二项测试</string>
+    <string name="popupmenu_test3">第三项测试</string>
+    <string name="popupmenu_test4">第四项测试</string>
+    <string name="popupmenu_test5">第五项测试</string>
+    <string name="popupmenu_message">菜单项被点击</string>
+</resources>

@@ -15,6 +15,6 @@ public class PictureFileFilter implements FileFilter {
         }
 
         String s = pathname.getName();
-        return s.endsWith(".png") || s.endsWith(".jpg") || s.endsWith(".bmp");
+        return s.endsWith(".png") || s.endsWith(".jpg") || s.endsWith(".jpeg");
     }
 }

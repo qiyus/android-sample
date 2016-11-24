@@ -52,10 +52,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // 对话框设置。
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setCancelable(false);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setMessage("全盘搜索中，慢慢等着吧！");
+
         // 动态获取访问外部存储权限。
         if (Build.VERSION.SDK_INT >= 23) {
             if (ContextCompat.checkSelfPermission(MainActivity.this,
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        // 启动图片加载线程，等待图片加载消息。
         mImageProcessor = new ImageProcessor(new Handler());
         mImageProcessor.setOnProcessedResultListener(new ImageProcessor.OnProcessedResultListener<ImageView>() {
             @Override
@@ -83,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                // 启动全盘搜索线程。
                 new FileSearcherTask().execute();
                 break;
             default:
@@ -172,6 +176,15 @@ public class MainActivity extends AppCompatActivity {
          * @param documents 搜索结果
          */
         private void searchPictureFile(File root, List<Document> documents) {
+            // 测试进度条的进度设置。
+            publishProgress(50);
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            // 过滤掉png、jpg以外的文件。
             File[] list = root.listFiles(new PictureFileFilter());
             if (list != null) {
                 for (File file : list) {
@@ -183,8 +196,6 @@ public class MainActivity extends AppCompatActivity {
                         searchPictureFile(file, documents);
                     } else {
                         String fileName = file.getName();
-                        System.out.println(fileName);
-
                         Document document = new Document();
                         document.setTitle(fileName);
                         document.setPath(file.getAbsolutePath());

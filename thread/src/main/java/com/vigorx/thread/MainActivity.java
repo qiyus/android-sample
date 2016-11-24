@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private GridAdapter mAdapter;
     private ImageProcessor<ImageView> mImageProcessor;
     private ProgressDialog mProgressDialog;
+    private int mProgressValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setMessage("全盘搜索中，慢慢等着吧！");
+        mProgressValue = 0;
 
         // 动态获取访问外部存储权限。
         if (Build.VERSION.SDK_INT >= 23) {
@@ -177,9 +179,12 @@ public class MainActivity extends AppCompatActivity {
          */
         private void searchPictureFile(File root, List<Document> documents) {
             // 测试进度条的进度设置。
-            publishProgress(50);
             try {
-                Thread.sleep(10);
+                if (mProgressValue < 99) {
+                    mProgressValue++;
+                }
+                publishProgress(mProgressValue);
+                Thread.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

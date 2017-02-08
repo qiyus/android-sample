@@ -1,9 +1,11 @@
 package com.vigorx.mvp;
 
 /**
- * Created by songlei on 16/9/29.
+ * MVP-Model 数据Bean
+ * Created by Vigor on 2017/2/8.
+ * Vigor_x studio (hsly_song@163.com)
  */
-public class CalculationItem {
+class CalculationItem {
     public String getFirstAddend() {
         return firstAddend;
     }

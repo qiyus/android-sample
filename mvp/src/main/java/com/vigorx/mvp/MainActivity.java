@@ -8,16 +8,20 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Created by songlei on 16/9/29.
- * MVP模式利用的例子。
+ * MVP-View 负责处理UI
+ * Created by Vigor on 2017/2/8.
+ * Vigor_x studio (hsly_song@163.com)
  */
-public class MainActivity extends AppCompatActivity implements ICalculationContract.ICalculationView {
+public class MainActivity extends AppCompatActivity implements Contract.IView {
     private EditText mEditFirstAddend;
     private EditText mEditAddend;
     private TextView mTextResult;
     private RecordAdapter mAdapter;
-    private ICalculationContract.ICalculationPresenter mPresenter;
+    private Contract.IPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,9 @@ public class MainActivity extends AppCompatActivity implements ICalculationContr
         mButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.calculation();
+                String firstAddend = mEditFirstAddend.getText().toString();
+                String addend = mEditAddend.getText().toString();
+                mPresenter.add(firstAddend, addend);
             }
         });
 
@@ -39,27 +45,17 @@ public class MainActivity extends AppCompatActivity implements ICalculationContr
         mPresenter = new CalculationPresenter(this, model);
 
         ListView listRecord = (ListView) findViewById(R.id.list_record);
-        mAdapter = new RecordAdapter(this, R.layout.item_record, mPresenter.getRecordList());
+        mAdapter = new RecordAdapter(this, new ArrayList<CalculationItem>(0));
         listRecord.setAdapter(mAdapter);
     }
 
     @Override
-    public void displayResult(String result) {
+    public void showResult(String result) {
         mTextResult.setText(result);
     }
 
     @Override
-    public String getFirstAddend() {
-        return mEditFirstAddend.getText().toString();
-    }
-
-    @Override
-    public String getAddend() {
-        return mEditAddend.getText().toString();
-    }
-
-    @Override
-    public void refreshRecordList() {
-        mAdapter.notifyDataSetChanged();
+    public void showRecord(List<CalculationItem> record) {
+        mAdapter.replaceData(record);
     }
 }

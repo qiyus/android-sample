@@ -10,21 +10,20 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by songlei on 16/9/29.
+ * 计算结果履历的Adapter
+ * Created by Vigor on 2017/2/8.
+ * Vigor_x studio (hsly_song@163.com)
  */
-public class RecordAdapter extends BaseAdapter {
-    private Context mContext;
-    private int mLayoutId;
+class RecordAdapter extends BaseAdapter {
+    private final Context mContext;
     private List<CalculationItem> mData;
 
     /**
      * 创建计算履历的Adapter
      * @param context 上下文
-     * @param resource List item的layout
      * @param objects 数据
      */
-    public RecordAdapter(Context context, int resource, List<CalculationItem> objects) {
-        this.mLayoutId = resource;
+    public RecordAdapter(Context context, List<CalculationItem> objects) {
         this.mContext = context;
         this.mData = objects;
     }
@@ -52,13 +51,18 @@ public class RecordAdapter extends BaseAdapter {
         return position;
     }
 
+    public void replaceData(List<CalculationItem> data) {
+        mData = data;
+        notifyDataSetChanged();
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (null == convertView){
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(mContext);
-            convertView = inflater.inflate(mLayoutId, null);
+            convertView = inflater.inflate(R.layout.item_record, null);
             viewHolder.number = (TextView) convertView.findViewById(R.id.item_number);
             viewHolder.record = (TextView) convertView.findViewById(R.id.item_record);
             convertView.setTag(viewHolder);

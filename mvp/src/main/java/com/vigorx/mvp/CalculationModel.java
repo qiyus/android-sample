@@ -32,13 +32,15 @@ class CalculationModel implements Contract.IModel {
         String result = String.valueOf(c);
 
         // 追加列表数据
-        CalculationItem item = new CalculationItem();
-        item.setFirstAddend(firstAddend);
-        item.setAddend(addend);
-        item.setResult(result);
-        mRecord.add(item);
+        CalculationItem item = new CalculationItem(firstAddend, addend, result);
+        addRecord(item);
 
         return result;
+    }
+
+    @Override
+    public void addRecord(CalculationItem item) {
+        mRecord.add(item);
     }
 
     @Override

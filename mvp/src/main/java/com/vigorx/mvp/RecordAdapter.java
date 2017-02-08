@@ -74,7 +74,8 @@ class RecordAdapter extends BaseAdapter {
         CalculationItem item = getItem(position);
         if (null != item) {
             viewHolder.number.setText(String.valueOf(position + 1));
-            viewHolder.record.setText(item.toString());
+            String expression = item.getFirstAddend() + " + " + item.getAddend() + " = " + item.getResult();
+            viewHolder.record.setText(expression);
         }
         return convertView;
     }

@@ -19,6 +19,11 @@ interface Contract {
         String add(String firstAddend, String addend);
 
         /**
+         * 追加计算结果到履历
+         */
+        void addRecord(CalculationItem item);
+
+        /**
          * 返回计算履历
          */
         List<CalculationItem> getRecord();

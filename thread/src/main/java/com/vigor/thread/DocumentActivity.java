@@ -63,7 +63,6 @@ public class DocumentActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mUIHandler.removeCallbacksAndMessages(null);
-        mUpdateTimeHandler.removeCallbacksAndMessages(null);
         mUpdateTimeThread.quit();
     }
 

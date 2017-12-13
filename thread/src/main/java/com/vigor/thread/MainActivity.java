@@ -29,11 +29,11 @@ import java.util.List;
 
 /**
  * Created by Vigor on 2016/11/9.
- * 主画面
+ * 主画面(AsyncTask 取得文件列表）
  */
 public class MainActivity extends AppCompatActivity {
     private final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-    private final int FILE_COUNT = 500;
+    private final int FILE_COUNT = 200;
     private List<Document> mData;
     private GridView mGrid;
     private GridAdapter mAdapter;

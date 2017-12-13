@@ -6,6 +6,7 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -16,21 +17,27 @@ import android.widget.TextView;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Created by Vigor on 2016/11/9.
- * 图片表示
+ * 图片表示（Handler设置文件情报）
  */
 public class DocumentActivity extends AppCompatActivity {
     public final static String DOCUMENT_PATH = "document_path";
     private final static int LOAD_FILE_SIZE = 1;
     private final static int LOAD_FILE_DATE = 2;
+    private final static int CURRENT_DATE = 3;
+    private final static String UPDATE_TIME_THREAD = "update current time";
     private TextView mFileName;
     private TextView mFileSize;
-    private TextView mFileLastDate;
+    private TextView mFileDate;
+    private TextView mCurrentTime;
     private String mPath;
-    private Handler mHandler;
+    private Handler mUIHandler;
+    private Handler mUpdateTimeHandler;
+    private HandlerThread mUpdateTimeThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,23 +48,64 @@ public class DocumentActivity extends AppCompatActivity {
         mPath = intent.getStringExtra(DOCUMENT_PATH);
         mFileName = (TextView) findViewById(R.id.fileName);
         mFileSize = (TextView) findViewById(R.id.fileSize);
-        mFileLastDate = (TextView) findViewById(R.id.fileLastDate);
-        mHandler = new FileInfoHandler(this);
+        mFileDate = (TextView) findViewById(R.id.fileLastDate);
+        mCurrentTime = (TextView) findViewById(R.id.currentTime);
+        mUIHandler = new UIHandler(this);
 
         setImage(imageView, mPath);
+        setFilePath();
+        setFileSizeAndDate();
+        setCurrentTime();
         setFloating();
-        startFileInfoTask();
     }
 
-    private void startFileInfoTask() {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mUIHandler.removeCallbacksAndMessages(null);
+        mUpdateTimeHandler.removeCallbacksAndMessages(null);
+        mUpdateTimeThread.quit();
+    }
+
+    private void setCurrentTime() {
+        mUpdateTimeThread = new HandlerThread(UPDATE_TIME_THREAD);
+        mUpdateTimeThread.start();
+        mUpdateTimeHandler = new Handler(mUpdateTimeThread.getLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                System.out.println("UpdateTimeHandler: " + Thread.currentThread().getName());
+                Date date = new Date();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String time = format.format(date);
+                Message message = mUIHandler.obtainMessage(CURRENT_DATE, time);
+                mUIHandler.sendMessage(message);
+                super.handleMessage(msg);
+            }
+        };
+
+        for (int i = 0; i < 7; i++) {
+            mUpdateTimeHandler.sendEmptyMessageDelayed(i, i * 1000);
+        }
+    }
+
+    private void setFilePath() {
+        mUIHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mFileName.setText(mPath);
+            }
+        }, 500);
+    }
+
+    private void setFileSizeAndDate() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 File file = new File(mPath);
-                Message message = mHandler.obtainMessage(LOAD_FILE_SIZE, getFileSize(file));
-                mHandler.sendMessage(message);
-                message = mHandler.obtainMessage(LOAD_FILE_DATE, getFileDate(file));
-                mHandler.sendMessageDelayed(message, 10000);
+                Message message = mUIHandler.obtainMessage(LOAD_FILE_SIZE, getFileSize(file));
+                mUIHandler.sendMessage(message);
+                message = mUIHandler.obtainMessage(LOAD_FILE_DATE, getFileDate(file));
+                mUIHandler.sendMessageDelayed(message, 1000);
             }
 
             private String getFileDate(File file) {
@@ -107,25 +155,33 @@ public class DocumentActivity extends AppCompatActivity {
         });
     }
 
-    public static class FileInfoHandler extends Handler {
+    public static class UIHandler extends Handler {
         WeakReference<Activity> mActivity;
 
-        public FileInfoHandler(Activity activity) {
+        public UIHandler(Activity activity) {
             mActivity = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            System.out.println("UIHandler: " + Thread.currentThread().getName());
             DocumentActivity activity = (DocumentActivity) mActivity.get();
+            if (activity == null) {
+                return;
+            }
 
-            activity.mFileName.setText(activity.mPath);
-            if (msg.what == LOAD_FILE_SIZE) {
-                String fileSize = (String) msg.obj;
-                activity.mFileSize.setText(fileSize);
-            } else if (msg.what == LOAD_FILE_DATE) {
-                String fileDate = (String) msg.obj;
-                activity.mFileLastDate.setText(fileDate);
+            switch (msg.what) {
+                case LOAD_FILE_SIZE:
+                    activity.mFileSize.setText((String) msg.obj);
+                    break;
+                case LOAD_FILE_DATE:
+                    activity.mFileDate.setText((String) msg.obj);
+                    break;
+                case CURRENT_DATE:
+                    activity.mCurrentTime.setText((String) msg.obj);
+                    break;
+                default:
             }
         }
     }

@@ -1,17 +1,17 @@
 package com.vigor.thread;
 
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by Vigor on 2016/11/9.
- * Image缩略图加工
+ * Image缩略图加工（HandlerThread）
  */
 public class ImageProcessor<Handle> extends HandlerThread {
     private static final String TAG = "ImageProcessor";

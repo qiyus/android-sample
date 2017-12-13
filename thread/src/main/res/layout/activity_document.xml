@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
     tools:context="com.vigor.thread.DocumentActivity">
 
     <ImageView
@@ -63,6 +63,20 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/fileLastDateLabel"
             android:layout_toRightOf="@+id/fileLastDateLabel" />
+
+        <TextView
+            android:id="@+id/currentTimeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fileLastDate"
+            android:text="@string/currentTime" />
+
+        <TextView
+            android:id="@+id/currentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/currentTimeLabel"
+            android:layout_toRightOf="@+id/currentTimeLabel" />
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton

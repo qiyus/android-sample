@@ -1,4 +1,4 @@
-package com.vigor.apitester;
+package com.vigor.mvvm;
 
 import org.junit.Test;
 

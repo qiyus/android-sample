@@ -4,11 +4,11 @@
     <data>
         <variable
             name="item"
-            type="com.vigorx.mvvm.CalculationItem" />
+            type="com.vigor.mvvm.CalculationItem" />
 
         <variable
             name="event"
-            type="com.vigorx.mvvm.CalculationViewModel" />
+            type="com.vigor.mvvm.CalculationViewModel" />
     </data>
 
     <LinearLayout

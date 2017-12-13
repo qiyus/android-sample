@@ -1,4 +1,4 @@
-package com.vigor.apitester;
+package com.vigor.thread;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.vigorx.apitester", appContext.getPackageName());
+        assertEquals("com.vigorx.thread", appContext.getPackageName());
     }
 }

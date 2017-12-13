@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">thread</string>
+    <string name="searching">搜索%1$d个图片文件。</string>
+    <string name="fileName">文件名：</string>
+    <string name="fileSize">文件大小：</string>
+    <string name="fileLastDate">更新日期：</string>
+    <string name="info">提示</string>
 </resources>

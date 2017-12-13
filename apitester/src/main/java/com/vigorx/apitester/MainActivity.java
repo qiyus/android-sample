@@ -1,4 +1,4 @@
-package com.vigorx.apitester;
+package com.vigor.apitester;
 
 import android.app.Activity;
 import android.os.Bundle;

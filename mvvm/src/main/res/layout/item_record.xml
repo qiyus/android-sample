@@ -4,7 +4,7 @@
     <data>
         <variable
             name="item"
-            type="com.vigorx.mvvm.CalculationRecord" />
+            type="com.vigor.mvvm.CalculationRecord" />
     </data>
 
     <LinearLayout
